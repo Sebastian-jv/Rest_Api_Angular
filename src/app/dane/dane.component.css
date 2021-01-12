@@ -1,0 +1,25 @@
+.container
+{
+    background-color: honeydew;
+}
+#logo{
+    height:100px;
+    background-color: #5F9F9F;
+}
+#user{
+    height:100px;
+    background-color: seashell;
+}
+
+#main_area
+{
+    height:480px;
+}
+#left_nav
+{
+    background-color: #DBDB70;
+}
+#right_area
+{
+    background-color: orange;
+}

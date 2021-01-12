@@ -1,0 +1,121 @@
+<div class="container">
+    <div class="row bt-1">
+        <div class="col-md-12 text-light" id="logo" >
+            <div><h1 class="">Konto</h1></div>
+            <div><h3 class="" *ngIf="read_user">dane osobowe</h3></div>
+        </div>
+        <div class="col col-md-12" id="user">            
+           <div class="float-right mt-2">
+            
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <button (click)="hndOnlick()"  class="btn btn-outline-secondary" type="button">Zaloguj</button>
+                </div>
+                <input  [value]="username" (keyup)="onChangeUserName($event)" type="text" class="form-control" placeholder="username" aria-label="" aria-describedby="basic-addon1">
+            </div>
+            <div>
+                <span *ngIf="!read_user; else condition1">
+                    <p>Wcisnij "wczytaj" lub zmien nazwe</p>
+                </span>
+                <ng-template #condition1>
+                    <button type="button" class="btn btn-success">Wczytany użytkownik: {{username}}</button>
+                </ng-template>
+                </div>
+            </div>
+            <div *ngIf="read_user" class="float-left">
+                <div class="d-flex flex-row">
+                    <div class="p-2">
+                        <img src="assets/img/avatar.png" alt="photo_avatar" height="80" weight="80" class="border border-dark rounded-circle" />
+                    </div>
+                    <div class="p-2 align-self-center"><h2>{{username}}</h2></div>
+                </div>
+                    
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-2" id="main_area">
+        <div class="col col-md-6 " id="left_nav" >
+            <div *ngIf="read_user" class="mt-2">
+                <h6>Wybierz co chcesz zrobic: </h6>
+                <div class="input-group mr-5">
+                    <select class="custom-select"  (change)="mainChange($event)">
+                    <option value="0">Wybierz...</option>
+                    <option value="1">Wyswietl</option>
+                    <option value="2">Modyfikuj</option>
+                    </select>
+                </div>
+            </div>
+            
+                <div *ngIf="show" class="mt-2">
+                <label><h6>Wybierz pole: </h6></label>
+                <select (change)="secondShowChange($event)" class="custom-select">
+                    <option [value]="-1">Wybierz...</option>
+                    <option *ngFor="let ch of choice" [value]=ch.id >{{ch.name}}</option>
+                    <option [value]="11" >Wszystkie</option>
+                </select>
+            </div>
+            <div *ngIf="modify">
+                <label><h6>Wybierz pole: </h6></label>
+                <select (change)="valModifyChange($event)" class="custom-select">
+                    <option [value]="-1">Wybierz modifikacje...</option>
+                    <option *ngFor="let val_m of choice_mod" [value]=val_m.id >{{val_m.name}}</option>
+                    <option [value]="11" >Wszystkie</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col col-md-6" id="right_area">
+            <div *ngIf="second_show" class="show mt-1">
+                <div [ngSwitch]="second_choice">
+                    <div *ngSwitchCase="-1"></div>
+                    <div *ngSwitchCase="11">{{resetCounter()}}
+                        <div *ngFor="let areaName of choice" class="mt-1">
+                            <div class="input-group">
+                                <span class="input-group-text bg-primary" id="">{{choice[counter].name}}</span>
+                                <input type="text" class="form-control" [value]="choiceArea(counter)" [disabled]="true" >
+                            </div>{{upCounter()}}
+                        </div>
+                    </div>
+                    <div *ngSwitchDefault>
+                        <div class="input-group">
+                            <span class="input-group-text bg-primary" id="">{{choice[second_choice].name}}</span>
+                            <input type="text" class="form-control" [value]="choiceArea(second_choice)" [disabled]="true" >
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="modify" class="mt-2 modify">
+                    <div [ngSwitch]="modify_choice">
+                        <div *ngSwitchCase="-1"></div>
+                        <div *ngSwitchCase="11">
+                            <div class="input-group mt-1">
+                                <span class="input-group-text bg-danger" >{{choice[0].name}}</span>
+                                <input type="text" class="form-control" [value]="choiceArea('0')" [disabled]="true" >
+                            </div>{{setCounter(1)}}
+                            <div *ngFor="let ch_m of choice_mod">
+                                <div class="input-group mt-1">
+                                    <span class="input-group-text bg-primary" id="">{{choice[counter].name}}</span>
+                                    <input type="text" class="form-control" id={{counter}} (click)="setActiveInput($event)" [value]="choiceArea(counter)" (keyup)="onChangeAreaData($event)" >
+                                </div>{{upCounter()}}
+                            </div>
+                        </div>
+                        <div *ngSwitchDefault>
+                            <div class="input-group">
+                                <span class="input-group-text bg-primary" id="">{{choice[modify_choice].name}}</span>
+                                <input type="text" class="form-control" id={{modify_choice}} (click)="setActiveInput($event)" [value]="choiceArea(modify_choice)" (keyup)="onChangeAreaData($event)">
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="second_modify">
+                        <div class="float-left">
+                            <button  (click)="hndSaveClick()" type="button" class="btn btn-success mt-1">Zapisz</button>
+                        </div>
+                        <div *ngIf="save" class="float-right mt-1">
+                            <button type="button" class="btn btn-danger">{{answerRest}}</button>
+                        </div>
+                    </div>
+            </div>
+        </div>        
+    </div>
+</div>
